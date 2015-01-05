@@ -37,4 +37,6 @@ class ofApp : public ofBaseApp{
         ofxMaxiFFT fft;
         float screenRatio;
         float* fft_bins;
+        int numSpectrum;
+        float** spectrums;
 };
