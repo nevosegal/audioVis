@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxMaxim.h"
 
 class ofApp : public ofBaseApp{
 
@@ -17,5 +18,23 @@ class ofApp : public ofBaseApp{
 		void mouseReleased(int x, int y, int button);
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);		
+		void gotMessage(ofMessage msg);
+    
+    
+        void audioRequested 	(float * input, int bufferSize, int nChannels); /* output method */
+        void audioReceived 	(float * input, int bufferSize, int nChannels); /* input method */
+        
+        int		initialBufferSize; /* buffer size */
+        int		sampleRate;
+        
+        
+        /* stick you maximilian stuff below */
+        
+        double wave,sample,outputs[2];
+        ofxMaxiMix mymix;
+        ofxMaxiOsc sine1;
+        ofxMaxiSample beats,beat;
+        ofxMaxiFFT fft;
+        float screenRatio;
+        float* fft_bins;
 };
