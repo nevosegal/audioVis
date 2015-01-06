@@ -7,6 +7,7 @@ void ofApp::setup(){
     initialBufferSize	= 512;
 
     beat.load(ofToDataPath("song1.wav"));
+    buffer = new float[initialBufferSize];
     fft.setup(initialBufferSize, initialBufferSize, initialBufferSize);
     spectrums = new float*[numSpectrum];
     for(int i = 0; i < numSpectrum; i++){
@@ -15,8 +16,8 @@ void ofApp::setup(){
             spectrums[i][j] = 0;
         }
     }
-    screenRatio = (float)ofGetWidth()/fft.bins;
-    ofSoundStreamSetup(2,0,this, sampleRate, initialBufferSize, 4);/* Call this last ! */
+
+    ofSoundStreamSetup(2,1,this, sampleRate, initialBufferSize, 4);/* Call this last ! */
 }
 
 //--------------------------------------------------------------
@@ -25,6 +26,7 @@ void ofApp::update(){
 }
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
     ofBackground(50);
     ofSetLineWidth(2);
     
@@ -37,6 +39,7 @@ void ofApp::draw(){
     for(int j = 0; j < fft.bins; j++){
         spectrums[0][j] = fft.magnitudes[j];
     }
+    
 
     for(int i = 0; i < numSpectrum; i++){
         ofSetColor(30,200,30,255/30*(30-i));
@@ -46,6 +49,10 @@ void ofApp::draw(){
                    i*10 +screenRatio*(j+1), 2*ofGetHeight()/3 - i*10 - spectrums[i][j+1] ,-1*i*30);
         }
     }
+    ofSetColor(200,50,50);
+    
+    ofLine(ofGetWidth()*fft.spectralCentroid()/(sampleRate/2) ,2*ofGetHeight()/3, 15, ofGetWidth()*fft.spectralCentroid()/(sampleRate/2), 2*ofGetHeight()/3+20, 15);
+
 }
 
 
@@ -54,7 +61,7 @@ void ofApp::audioRequested 	(float * output, int bufferSize, int nChannels){
     
     for (int i = 0; i < bufferSize; i++){
         
-        sample=beat.play();
+        sample=buffer[i];
         fft.process(sample);
         
         mymix.stereo(sample, outputs, 0.5);
@@ -66,7 +73,9 @@ void ofApp::audioRequested 	(float * output, int bufferSize, int nChannels){
 
 //--------------------------------------------------------------
 void ofApp::audioReceived(float * input, int bufferSize, int nChannels){
-    
+    for(int i = 0; i < bufferSize; i++){
+        buffer[i] = input[i];
+    }
 }
 
 //--------------------------------------------------------------

@@ -19,6 +19,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+        float getSpectralCentroid(float* amplitudeSpectrum);
     
     
         void audioRequested 	(float * input, int bufferSize, int nChannels); /* output method */
@@ -32,11 +33,11 @@ class ofApp : public ofBaseApp{
         
         double wave,sample,outputs[2];
         ofxMaxiMix mymix;
-        ofxMaxiOsc sine1;
         ofxMaxiSample beats,beat;
         ofxMaxiFFT fft;
         float screenRatio;
         float* fft_bins;
         int numSpectrum;
         float** spectrums;
+        float* buffer;
 };
