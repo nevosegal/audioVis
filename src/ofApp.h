@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxMaxim.h"
+#include "Button.h"
 
 class ofApp : public ofBaseApp{
 
@@ -31,13 +32,17 @@ class ofApp : public ofBaseApp{
         
         /* stick you maximilian stuff below */
         
-        double wave,sample,outputs[2];
+        double sample,outputs[2];
         ofxMaxiMix mymix;
-        ofxMaxiSample beats,beat;
+        maxiOsc sine;
+        ofxMaxiSample beat;
         ofxMaxiFFT fft;
         float screenRatio;
         float* fft_bins;
         int numSpectrum;
         float** spectrums;
         float* buffer;
+        Button* buttons;
+        int numButtons;
+        int sineFreq;
 };

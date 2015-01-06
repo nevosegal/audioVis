@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     numSpectrum = 30;
+    numButtons = 3;
     sampleRate 			= 44100;
     initialBufferSize	= 512;
 
@@ -10,12 +11,19 @@ void ofApp::setup(){
     buffer = new float[initialBufferSize];
     fft.setup(initialBufferSize, initialBufferSize, initialBufferSize);
     spectrums = new float*[numSpectrum];
+    
     for(int i = 0; i < numSpectrum; i++){
         spectrums[i] = new float[fft.bins];
         for(int j = 0; j < fft.bins; j++){
             spectrums[i][j] = 0;
         }
     }
+    
+    buttons = new Button[numButtons];
+    buttons[0] = *new Button(10,20,"osc");
+    buttons[1] = *new Button(60,20,"song");
+    buttons[2] = *new Button(110,20,"mic");
+    buttons[0].activate();
 
     ofSoundStreamSetup(2,1,this, sampleRate, initialBufferSize, 4);/* Call this last ! */
 }
@@ -50,9 +58,13 @@ void ofApp::draw(){
         }
     }
     ofSetColor(200,50,50);
+    ofSetLineWidth(2);
+    ofLine(ofGetWidth()*fft.spectralCentroid()/(sampleRate/2) ,2*ofGetHeight()/3, 15, ofGetWidth()*fft.spectralCentroid()/(sampleRate/2), 2*ofGetHeight()/3+40, 15);
+    ofDrawBitmapString(ofToString(fft.spectralCentroid()), ofGetWidth()*fft.spectralCentroid()/(sampleRate/2), 2*ofGetHeight()/3+40);
     
-    ofLine(ofGetWidth()*fft.spectralCentroid()/(sampleRate/2) ,2*ofGetHeight()/3, 15, ofGetWidth()*fft.spectralCentroid()/(sampleRate/2), 2*ofGetHeight()/3+20, 15);
-
+    for(int i = 0; i < numButtons; i++){
+        buttons[i].draw();
+    }
 }
 
 
@@ -60,8 +72,20 @@ void ofApp::draw(){
 void ofApp::audioRequested 	(float * output, int bufferSize, int nChannels){
     
     for (int i = 0; i < bufferSize; i++){
-        
-        sample=buffer[i];
+        for(int j = 0 ; j < numButtons; j++) {
+            if(buttons[j].isActivated()){
+                if(buttons[j].type == "osc"){
+                    sample = sine.sinewave(440);
+                }
+                else if( buttons[j].type == "song"){
+                    sample = beat.play();
+                }
+                else{
+                    sample=buffer[i];
+                }
+            }
+        }
+
         fft.process(sample);
         
         mymix.stereo(sample, outputs, 0.5);
@@ -100,7 +124,16 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    for(int i = 0 ; i < numButtons; i++){
+        if(buttons[i].isInBounds(x, y)){
+            buttons[i].activate();
+            for(int j = 0 ; j < numButtons; j++){
+                if(i!=j){
+                    buttons[j].deactivate();
+                }
+            }
+        }
+    }
 }
 
 //--------------------------------------------------------------
