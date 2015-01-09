@@ -128,7 +128,7 @@ void ofApp::audioReceived(float * input, int bufferSize, int nChannels){
 }
 
 
-//the hanning function.
+//the hanning function (taken from www.rgm.ogalab.net/RGM/R_rdfile?f=GENEAread/man/hanning.window.Rd&d=R_CC)
 float* ofApp::hanning(int bufferSize){
     float* hanning = new float[bufferSize];
     for (int i = 0; i < bufferSize; i++) {
@@ -154,6 +154,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
+    //changing the frequency of the oscillator when the mouse is changed
     for(int i = 0; i < numButtons; i++){
         if(buttons[i].type == "osc" && buttons[i].isActivated()){
             int deltaY = 5*(mousePressedY - y);
@@ -165,7 +166,10 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+    //storing the position of the mouse when clicked
     mousePressedY = y;
+    
+    //activating/deactivating buttons when clicked.
     for(int i = 0 ; i < numButtons; i++){
         if(buttons[i].isInBounds(x, y)){
             buttons[i].activate();

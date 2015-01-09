@@ -7,10 +7,11 @@
 class ofApp : public ofBaseApp{
 
 	public:
+    
+    //class methods
 		void setup();
 		void update();
 		void draw();
-
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -22,24 +23,18 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         float getSpectralCentroid(float* amplitudeSpectrum);
         float* hanning(int bufferSize);
+        void audioRequested (float * input, int bufferSize, int nChannels);
+        void audioReceived (float * input, int bufferSize, int nChannels);
     
-    
-        void audioRequested 	(float * input, int bufferSize, int nChannels); /* output method */
-        void audioReceived 	(float * input, int bufferSize, int nChannels); /* input method */
-        
-        int		initialBufferSize; /* buffer size */
-        int		sampleRate;
-        
-        
-        /* stick you maximilian stuff below */
-        
+    //class variables
+        int	initialBufferSize;
+        int	sampleRate;
         double sample,outputs[2];
         ofxMaxiMix mymix;
         maxiOsc sine;
         ofxMaxiSample beat;
         ofxMaxiFFT fft;
         float screenRatio;
-        float* fft_bins;
         int numSpectrum;
         float** spectrums;
         float* buffer;
