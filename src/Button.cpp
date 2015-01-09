@@ -8,8 +8,6 @@
 
 #include "Button.h"
 
-#include "Button.h"
-
 Button::Button(){
     
 }
@@ -18,17 +16,17 @@ Button::Button(int x, int y, string type){
     this->x = x;
     this->y = y;
     w = 40;
-    h = 25;
+    h = 40;
     this->type = type;
     active = false;
     if(type == "osc"){
         img.loadImage("sine.png");
     }
     else if(type == "song"){
-        img.loadImage("sine.png");
+        img.loadImage("player.png");
     }
     else{
-        img.loadImage("square.png");
+        img.loadImage("mic.png");
     }
     
 }

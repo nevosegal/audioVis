@@ -21,6 +21,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
         float getSpectralCentroid(float* amplitudeSpectrum);
+        float* hanning(int bufferSize);
     
     
         void audioRequested 	(float * input, int bufferSize, int nChannels); /* output method */
@@ -44,5 +45,6 @@ class ofApp : public ofBaseApp{
         float* buffer;
         Button* buttons;
         int numButtons;
-        int sineFreq;
+        int sineFreq, mousePressedY;
+        float* hannedWindow;
 };
