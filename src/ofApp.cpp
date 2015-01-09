@@ -128,7 +128,7 @@ void ofApp::audioReceived(float * input, int bufferSize, int nChannels){
 }
 
 
-//the hanning function (taken from www.rgm.ogalab.net/RGM/R_rdfile?f=GENEAread/man/hanning.window.Rd&d=R_CC)
+//the hanning function (taken from rgm.ogalab.net/RGM/R_rdfile?f=GENEAread/man/hanning.window.Rd&d=R_CC)
 float* ofApp::hanning(int bufferSize){
     float* hanning = new float[bufferSize];
     for (int i = 0; i < bufferSize; i++) {
