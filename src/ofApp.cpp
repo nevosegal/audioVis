@@ -12,7 +12,8 @@ void ofApp::setup(){
     initialBufferSize = 512;
     
     //loading the song.
-    beat.load(ofToDataPath("song1.wav"));
+    //song is licensed under creative commons and can be found at www.freemusicarchive.org/music/download/d0d181d334c4f6f046bcc761dda3132cd7286590
+    beat.load(ofToDataPath("Professor_Kliq_-_03_-_Bust_This_Bust_That.wav"));
     //buffer that will be used to store the input.
     buffer = new float[initialBufferSize];
     
